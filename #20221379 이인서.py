@@ -38,6 +38,7 @@ class LinkedList:  # 단순 연결 리스트 클래스
         if prev is None or prev.link is None:
             return False
         prev.link = prev.link.link
+        
         return True
         
     def find_by_num(self, num):   #index의 약자 ind로 변수를 정했습니다 (책 찾는 함수)
@@ -141,8 +142,8 @@ class BookManagement:
             elif choice == "2":
                 num = input("삭제할 책 번호를 입력하세요:")
                 self.remove_book(num)
-                print(f"'{num} 번의 도서가 삭제되었습니다.") # 위와 동일합니다.
-
+                if self.remove_book(num):
+                        print(f"{num}번의 도서가 삭제되었습니다.") # if문 안썼다가 없는 번호를 삭제하는 참사가 생겨 수정했습니다.
             elif choice == "3":
                 num = input("조회할 책 번호를 입력하세요 :")
                 self.search_book(num)
@@ -151,7 +152,7 @@ class BookManagement:
                 print(f"현재 등록된 도서 목록 :")
                 self.display_books()
             elif choice =="5":
-                
+                print("프로그램을 종료합니다.")
                 break
 
 
