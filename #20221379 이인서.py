@@ -4,21 +4,29 @@ class Node:  # 연결 리스트의 노드로, 노드의 data 필드는 도서(Bo
     def __init__(self, elem, next=None):
         self.data = elem
         self.link = next
-
+    def append(self, new):  # 현재 노드 다음에 new 노드를 삽입
+        if new is not None:
+            new.link = self.link
+            self.link = new
+    def popNext(self):  # 현재 노드의 다음 노드를 삭제한 후 반환
+        deleted_node = self.link
+        if deleted_node is not None: 
+            self.link = deleted_node.link
+        return deleted_node
 class LinkedList:  # 단순 연결 리스트 클래스
     def __init__(self):
         self.head = None  # 1번째 인덱스를 머리로 잡고 None값으로 초기화
     def isEmpty(self):
         return self.head is None #head 가 none이면 비어있는 리스트
-    def append(self, book):  # book은 Book 객체
+    def append(self, book):
         new_node = Node(book)
         if self.head is None:
             self.head = new_node
             return
-        ind = self.head
-        while ind.link:
-            ind = ind.link
-        ind.link = new_node
+        hd = self.head
+        while hd.link:
+            hd = hd.link
+        hd.append(new_node)
 
     def delete_by_pos(self, pos):
         if pos is None or pos < 0 or self.head is None: #값이 0보다 작거나 없으면 false 반환합니다
@@ -37,9 +45,8 @@ class LinkedList:  # 단순 연결 리스트 클래스
             idx += 1
         if prev is None or prev.link is None:
             return False
-        prev.link = prev.link.link
         
-        return True
+        return prev.popNext() is not None
         
     def find_by_num(self, num):   #index의 약자 ind로 변수를 정했습니다 (책 찾는 함수)
         ind = self.head        #처음부터 순차적으로 탐색 시작
@@ -141,8 +148,8 @@ class BookManagement:
             
             elif choice == "2":
                 num = input("삭제할 책 번호를 입력하세요:")
-                self.remove_book(num)
-                if self.remove_book(num):
+                replay = self.remove_book(num)
+                if replay:
                         print(f"{num}번의 도서가 삭제되었습니다.") # if문 안썼다가 없는 번호를 삭제하는 참사가 생겨 수정했습니다.
             elif choice == "3":
                 num = input("조회할 책 번호를 입력하세요 :")
