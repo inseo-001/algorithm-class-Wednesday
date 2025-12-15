@@ -24,7 +24,7 @@ class LinkedList:  # 단순 연결 리스트 클래스
             self.head = new_node
             return
         hd = self.head
-        while hd.link:
+        while hd.link:  #리스트의 끝까지 순회하는 코드
             hd = hd.link
         hd.append(new_node)
 
